@@ -25,13 +25,77 @@ int* NeuronNet::copyData(vector<int> _layer_sizes) {
 	return sizes;
 }
 
-void NeuronNet::initInputVector(double* data) {
+void NeuronNet::setInputData(double* data) {
 	double* input_vector = neuron_vectors_norm[0];
 	int input_count = layer_sizes[0];
 	for (int y = 0; y < input_count; y++) {
 		input_vector[y] = data[y];
 	}
 }
+void NeuronNet::initSizes(vector<int> _layer_sizes) {
+	this->layers_count = _layer_sizes.size();
+	this->layer_sizes = copyData(_layer_sizes);
+}
+void NeuronNet::initNeuronVectors() {
+	this->nvs_count = layers_count-1;
+	double** layers = new double*[layers_count];
+	double** sum_layers = new double*[nvs_count];
+	
+	for (int l = 0; l < layers_count;l++) 
+	{
+		int layer_count = layer_sizes[l];
+		layers[l] = new double[layer_count];
+		if (l >= 1)
+			sum_layers[l-1] = new double[layer_count];
+	}
+	this->neuron_vectors_norm = layers;
+	this->neuron_vectors_sum = sum_layers;
+}
+void NeuronNet::initWeights() 
+{
+	srand(time(NULL));
+	weights_count = layers_count-1;
+	double*** weights = new double**[weights_count];
+	for (int l=1;l<layers_count;l++)
+	{
+		int output_count = layer_sizes[l];
+		int input_count = layer_sizes[l-1];
+		double** matrix = new double*[output_count];
+		for (int y = 0; y < output_count;y++) 
+		{
+			matrix[y] = new double[input_count];
+			for (int x = 0; x < input_count;x++) 
+				matrix[y][x] = rand();
+		}
+		weights[l] = matrix;
+	}
+	this->weights = weights;
+}
+void NeuronNet::initWeightGradients() {
+	double*** gradients = new double** [weights_count];
+	for (int l = 1; l < layers_count; l++)
+	{
+		int output_count = layer_sizes[l];
+		int input_count = layer_sizes[l - 1];
+		double** matrix = new double* [output_count];
+		for (int y = 0; y < output_count; y++)
+		{
+			matrix[y] = new double[input_count];
+		}
+		gradients[l-1] = matrix;
+	}
+	this->weight_gradients = gradients;
+}
+void NeuronNet::initLocalGradients() {
+	local_gradients = new double*[layers_count-1];
+	for (int i = 1;i<layers_count;i++) 
+	{
+		int layer_count = layer_sizes[i];
+		double* local_grads = new double[layer_count];
+		local_gradients[i - 1] = local_grads;
+	}
+}
+
 void NeuronNet::sumVector(int layer)
 {
 	int m = layer_sizes[layer - 1];
@@ -55,7 +119,7 @@ void NeuronNet::sumVector(int layer)
 	}
 
 }
-void NeuronNet:: normalizeVector(int layer)
+void NeuronNet::normalizeVector(int layer)
 {
 	double* sum_vector = neuron_vectors_sum[layer-1];
 	double* norm_vector = neuron_vectors_norm[layer];
@@ -70,45 +134,76 @@ void NeuronNet::updateVector(int layer)
 	sumVector(layer);
 	normalizeVector(layer);
 }
-
-double NeuronNet::getTotalError(double* desiredAnswer) {
-	int last_index = layers_count - 1;
-	int last_count =  layer_sizes[last_index];
-	double* output = neuron_vectors_norm[last_index];
-	double error = 0;
-	for (int y = 0; y < last_count;y++) 
+void NeuronNet::updateLastLocalGrads(double* desired_answer) {
+	int lnli = layers_count-1;//lnli-last neuron layer index
+	int last_count = layer_sizes[lnli];
+	double* outputs = neuron_vectors_norm[lnli - 1];
+	double* last_gradients = local_gradients[lnli-2];
+	double* last_sums = neuron_vectors_sum[lnli-2];
+	
+	for (int j = 0; j < last_count;j++)
 	{
-		double delta = output[y]-desiredAnswer[y];
-		double summand = pow(delta,2);
-		error += summand;
+		double output = outputs[j];
+		double desired = desired_answer[j];
+		double sum_output = last_sums[j];
+		double grad = 2 * (output - desired) * this->func->differentiate(sum_output);
+		last_gradients[j] = grad;
 	}
-	return error;
 }
-double NeuronNet::getDifferentialForLastWeight(double* desired_vector,int in_index,int out_index) 
+void NeuronNet::updateLastWeights() {
+	int last_count = layer_sizes[layers_count-1];
+	int prev_last_count = ;
+}
+void NeuronNet::updateHiddenLocalGrads(int norm_layer_index)
 {
-	int nnli = layers_count - 1;//normalized neuron last index
-	int wli = nnli-1;//weights last index
-	int snli = wli;//summand neurons last index
-	int last_neuron_layer_size = layer_sizes[nnli];
-
-	double* prev_layer = neuron_vectors_norm[nnli-1];
-	double input = prev_layer[in_index];
-	
-	double* real_outputs_norm = neuron_vectors_norm[nnli];
-	double* real_outputs_sum = neuron_vectors_sum[snli];
-	
-	double real_value = real_outputs_norm[out_index];
-	double real_sum = real_outputs_sum[out_index];
-	double desired_value=desired_vector[out_index];
-
-	double result = 2*(real_value-desired_value)*func->differentiate(real_sum)*input;
-	return result;
+	double* sum_neurons = neuron_vectors_sum[norm_layer_index-1];
+	int neurons_count = layer_sizes[norm_layer_index];
+	double* grads = local_gradients[norm_layer_index-1];
+	for (int i = 0; i < neurons_count;i++)
+	{
+		double sum = sum_neurons[i];
+		double grad = this->func->differentiate(sum);
+		grads[i] = grad;
+	}
 }
-void NeuronNet::updateLastWeights(double* desiredAnswer) 
+
+void NeuronNet::updateLastGradMatrix(double* desired_answer) 
 {
-	
-}
+	int last_layer = layers_count-1;
 
+	int input_count=layer_sizes[last_layer - 1];
+	int output_count = layer_sizes[last_layer];
+	double** last_matrix = weight_gradients[weights_count-1];
+	for (int j = 0; j < output_count;j++)
+	{
+		double* outputs = neuron_vectors_norm[last_layer];
+		double* sum_outputs = neuron_vectors_sum[last_layer-1];
+		double* inputs = neuron_vectors_norm[last_layer-1];
+		for (int i = 0; i < input_count;i++) 
+		{
+			double sum=sum_outputs[j];
+			double real = outputs[j];
+			double input = inputs[i];
+			double delta = func->differentiate(sum)*(desired_answer[j]-real)*input;
+			last_matrix[j][i] = 2*delta;
+		}
+	}
+}
+void NeuronNet::updateHiddenGradMatrix(int weights_layer_index) 
+{
+	double** matrix = this->weights[weights_layer_index];
+	int in_layer_index = weights_layer_index;
+	int out_layer_index = in_layer_index+1;
+	int out_count = layer_sizes[out_layer_index];
+	int in_count = layer_sizes[in_layer_index];
+	for (int j = 0; j < out_count;j++) 
+	{
+		for (int i = 0; i < in_count;i++) 
+		{
+
+		}
+	}
+}
 
 void NeuronNet::disposeWeights()
 {
@@ -163,38 +258,20 @@ void NeuronNet::printArr(int* arr, const int count) {
 //public
 NeuronNet::NeuronNet(vector<int> _layer_sizes, IFuncActivation* func)
 {
+	initSizes(_layer_sizes);
+	initNeuronVectors();
+	initLocalGradients();
+	initWeights();
+	initWeightGradients();
 	this->func = func;
-	layers_count = _layer_sizes.size();
-	this->layer_sizes = this->copyData(_layer_sizes);
-	//printArr(layer_sizes,layers_count);
-
-	weights_count = layers_count - 1;
-	weights = new double** [weights_count];
-
-	nvs_count = weights_count;
-	neuron_vectors_sum = new double* [nvs_count];
-
-	neuron_vectors_norm = new double* [layers_count];
-
-	for (int i = 0; i < layers_count; i++)
-	{
-		int in_count = layer_sizes[i];
-		neuron_vectors_norm[i] = new double[in_count];
-		if (i < weights_count) {
-			int out_count = layer_sizes[i + 1];
-			weights[i] = generateRandomLayerWeights(in_count, out_count);
-		}
-		if(i>=1)
-			neuron_vectors_sum[i-1] = new double[in_count];
-	}
-		
 }
 double* NeuronNet::getData(double* input, double& output_size)
 {
-	initInputVector(input);
+	setInputData(input);
 	for (int layer = 1; layer < layers_count; layer++)
 		updateVector(layer);
 	output_size = layer_sizes[layers_count - 1];
+	constexpr double double_size = sizeof(double);
 	int bytes_count = sizeof(double) * output_size;
 	double* norm_last = neuron_vectors_norm[layers_count - 1];
 	double* dist = new double[output_size];
