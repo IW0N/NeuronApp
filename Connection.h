@@ -5,14 +5,13 @@
 class Connection
 {
 private:
+	double weight_gradient;
+public:
 	Neuron* input;
 	Neuron* output;
 	double weight;
-public:
-	Connection(Neuron* input, Neuron* output) {
-		this->input = input;
-		this->output = output;
-		weight = rand() / 10000.0;
-	}
+	Connection(Neuron* input, Neuron* output);
+	void calculateWeightGradient();
+	void updateWeight(double train_speed);
 };
 

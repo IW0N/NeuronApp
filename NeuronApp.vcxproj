@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -127,14 +127,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="HiddenLocalGradientCalculator.cpp" />
+    <ClCompile Include="HiddenNeuron.cpp" />
+    <ClCompile Include="ILocalGradientCalculator.cpp" />
+    <ClCompile Include="ILossFunction.cpp" />
+    <ClCompile Include="InputNeuron.cpp" />
+    <ClCompile Include="MSE.cpp" />
+    <ClCompile Include="Neuron.cpp" />
     <ClCompile Include="NeuronApp.cpp" />
     <ClCompile Include="NeuronNet.cpp" />
+    <ClCompile Include="NeuronWithInputs.cpp" />
+    <ClCompile Include="NeuronWithOutputs.cpp" />
+    <ClCompile Include="OutputCalculator.cpp" />
+    <ClCompile Include="OutputNeuron.cpp" />
     <ClCompile Include="ReLU.cpp" />
+    <ClCompile Include="Sigmoida.cpp" />
+    <ClCompile Include="TrainPair.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="HiddenLocalGradientCalculator.h" />
+    <ClInclude Include="HiddenNeuron.h" />
     <ClInclude Include="IFuncActivation.h" />
+    <ClInclude Include="ILocalGradientCalculator.h" />
+    <ClInclude Include="ILossFunction.h" />
+    <ClInclude Include="InputNeuron.h" />
+    <ClInclude Include="MSE.h" />
+    <ClInclude Include="Neuron.h" />
     <ClInclude Include="NeuronNet.h" />
+    <ClInclude Include="NeuronWithInputs.h" />
+    <ClInclude Include="NeuronWithOutputs.h" />
+    <ClInclude Include="OutputCalculator.h" />
+    <ClInclude Include="OutputNeuron.h" />
     <ClInclude Include="ReLU.h" />
+    <ClInclude Include="Sigmoida.h" />
+    <ClInclude Include="TrainPair.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

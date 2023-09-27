@@ -4,61 +4,34 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include "Neuron.h"
+#include "TrainPair.h"
+#include "ILossFunction.h"
 using namespace std;
 class NeuronNet {
 private:
-	int* layer_sizes;
-	int layers_count;
-
-	int weights_count;
-	double*** weights;
-	double*** weight_gradients;
-
-	double** local_gradients;
-	double** neuron_vectors_norm;
-	//кол-во векторов на один меньше, чем у neuron_vectors_norm, т.к не берём в расчёт входящий вектор нейронов
-	double** neuron_vectors_sum;
-	int nvs_count;//nvs-neuron vectors sum
-	IFuncActivation* func;
-
-	//методы для инициализации объекта
-	double** generateRandomLayerWeights(int input_count, int output_count);
-	void initSizes(vector<int> _layer_sizes);
-	void initNeuronVectors();
-	void initWeights();
-	void initWeightGradients();
-	void initLocalGradients();
-	int* copyData(vector<int> _layer_sizes);
+	ILossFunction* loss_func;
+	vector<vector<Neuron*>> layers;
+	//������������� ���� ��������
+	void initLayers(vector<int> layer_sizes,IFuncActivation* func);
+	void bindLayerWithPrevious(vector<Neuron*> layer,int layer_index);
+	void bindWithLayer(Neuron* output,vector<Neuron*> previous_layer);
+	vector<Neuron*> generateLayer(int layer_size,int layers_count,int layer_index,IFuncActivation* func);
+	Neuron* getNeuron(IFuncActivation* activation,int layer_index,int layers_count);
 	
-	//методы для расчёта выходного результата
-	void setInputData(double* data);
-	void sumVector(int layer);
-	void normalizeVector(int layer);
-	void updateVector(int layer);
+	//getData
+	void setInputs(vector<double> input);
+	void recalculateNeurons();
+	vector<double> getOutput();
 
-	//методы для тренировки нейронной сети
-	double getTotalError(double* desiredAnswer);
-	void updateLastLocalGrads(double* desiredAnswer);
-	void updateHiddenLocalGrads(int norm_layer_index);
-	void updateLastWeights();
+	//train
+	void learnTrainData(TrainPair pair,double train_speed);
+	void setPredictedOutputs(vector<double> outputs);
 	
-	void updateLastGradMatrix(double* desired_out);
-	void updateHiddenGradMatrix(int weight_layer_index);
-	void updateTotalHiddenWeights();
-
-	void updateWeights(int weights_layer_index,double train_speed);
-
-	//методы высвобождения нейронной сети из оперативной памяти компьютера
-	void disposeWeights();
-	void disposeNormNeuronVectors();
-	void disposeSumNeuronVectors();
-	void disposeLayerSizes();
-	
-	//вспомогательные методы
-	void printArr(int* arr, const int count);
-
 public:
-	NeuronNet(vector<int> _layer_sizes, IFuncActivation* func);
-	double* getData(double* input, double& output_size);
+	NeuronNet(vector<int> layer_sizes, IFuncActivation* func,ILossFunction* loss);
+	vector<double> getData(vector<double> input);
+	void train(vector<TrainPair> dataSet,int epoches,double train_speed);
+	double getTotalError(vector<double> predicted);
 	~NeuronNet();
 };
