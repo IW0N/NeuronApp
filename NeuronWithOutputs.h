@@ -7,7 +7,7 @@ class NeuronWithOutputs:public Neuron
 protected:
 	std::vector<Connection*> outputs;
 public:
-	void setConnection(Connection* c);
+	virtual void setConnection(Connection* c);
 	~NeuronWithOutputs() override;
 };
 

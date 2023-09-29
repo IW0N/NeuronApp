@@ -5,6 +5,11 @@ HiddenCalculator::HiddenCalculator(std::vector<Connection*> outputs)
 	this->outputs = outputs;
 }
 
+void HiddenCalculator::setOutput(Connection* output)
+{
+	outputs.push_back(output);
+}
+
 double HiddenCalculator::calculateLocalGradient()
 {
 	double local_gradient = 0;

@@ -10,7 +10,7 @@ public:
 	Neuron* input;
 	Neuron* output;
 	double weight;
-	Connection(Neuron* input, Neuron* output);
+	Connection(Neuron* _input, Neuron* _output);
 	void calculateWeightGradient();
 	void updateWeight(double train_speed);
 };

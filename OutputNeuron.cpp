@@ -18,4 +18,7 @@ void OutputNeuron::updateErrorCoefficient()
 	out_calc->output = output;
 	NeuronWithInputs::updateErrorCoefficient();
 }
-OutputNeuron::~OutputNeuron() { }
+OutputNeuron::~OutputNeuron() 
+{
+	delete loss_func;
+}

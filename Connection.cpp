@@ -1,18 +1,25 @@
 #include "Connection.h"
-#include "OutputNeuron.h"
-#include "HiddenNeuron.h"
+#include "NeuronWithInputs.h"
+#include "NeuronWithOutputs.h"
 Connection::Connection(Neuron* input, Neuron* output) {
-	this->input = input;
-	this->output = output;
-	const double max = (double)INT32_MAX;
-	weight = rand()/max;
-	weight_gradient = 0;
+	if (dynamic_cast<NeuronWithOutputs*>(input)!=nullptr) {
+		if (dynamic_cast<NeuronWithInputs*>(output)!=nullptr) {
+			this->input = input;
+			this->output = output;
+			weight = (rand() % 10000) / 10000.0;
+			weight_gradient = 0;
+		}
+		else
+			throw "output не является NeuronWithInputs";
+	}
+	else
+		throw "input не является NeuronWithOutputs";
 }
 void Connection::calculateWeightGradient() 
 {
 	double input = this->input->getOutput();
-	NeuronWithInputs* out_with_inputs = (NeuronWithInputs*)output;
-	double error_coeff = out_with_inputs->getErrorCoefficient();
+	NeuronWithInputs* casted_output = dynamic_cast<NeuronWithInputs*>(output);
+	double error_coeff = casted_output->getErrorCoefficient();
 	weight_gradient = error_coeff*input;
 }
 void Connection::updateWeight(double train_speed) {

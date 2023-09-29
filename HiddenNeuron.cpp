@@ -10,8 +10,7 @@ void HiddenNeuron::calculateErrorCoefficient() {
 	double local_gradient = activation->differentiate(Neuron::input);
 	double error_coef = 0;
 	for (Connection* con : outputs) {
-		Neuron* _output = con->output;
-		NeuronWithInputs* output = (NeuronWithInputs*)_output;
+		NeuronWithInputs* output = dynamic_cast<NeuronWithInputs*>(con->output);
 		double out_eror_coef = output->getErrorCoefficient();
 		double weight = con->weight;
 		error_coef += out_eror_coef*weight;
@@ -19,13 +18,28 @@ void HiddenNeuron::calculateErrorCoefficient() {
 	this->error_coefficient = error_coef;
 }
 
+void HiddenNeuron::recalculate()
+{
+	NeuronWithInputs::recalculate();
+	NeuronWithOutputs::input = NeuronWithInputs::input;
+	NeuronWithOutputs::output = NeuronWithInputs::output;
+}
+
+void HiddenNeuron::setConnection(Connection* con)
+{
+	HiddenCalculator* calc = static_cast<HiddenCalculator*>(local_grad_calculator);
+	calc->setOutput(con);
+	NeuronWithOutputs::setConnection(con);
+
+}
+
 HiddenNeuron* HiddenNeuron::fromBase(Neuron* n) {
-	NeuronWithInputs* parent0 = (NeuronWithInputs*)n;
+	NeuronWithOutputs* parent0 = (NeuronWithOutputs*)n;
 	HiddenNeuron* root = (HiddenNeuron*)parent0;
 	return root;
 }
 Neuron* HiddenNeuron::toBase() {
-	NeuronWithInputs* parent0 = (NeuronWithInputs*)this;
+	NeuronWithOutputs* parent0 = (NeuronWithOutputs*)this;
 	Neuron* base = parent0;
 	return base;
 }

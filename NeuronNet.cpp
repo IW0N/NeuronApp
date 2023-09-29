@@ -50,12 +50,13 @@ void NeuronNet::initLayers(vector<int> layer_sizes, IFuncActivation* func)
 }
 void NeuronNet::bindWithLayer(Neuron* output, vector<Neuron*> prev_layer)
 {
-	NeuronWithInputs* inputable = static_cast<NeuronWithInputs*>(output);
+	NeuronWithInputs* casted_output = dynamic_cast<NeuronWithInputs*>(output);
 	for (int j = 0; j < prev_layer.size(); j++)
 	{
 		Neuron* input = prev_layer[j];
-		NeuronWithOutputs* casted_input = static_cast<NeuronWithOutputs*>(input);
-		inputable->bindWithInputNeuron(casted_input);
+		NeuronWithOutputs* casted_input = dynamic_cast<NeuronWithOutputs*>(input);
+		casted_output->bindWithInputNeuron(casted_input);
+		int a = 2;
 	}
 }
 
@@ -104,11 +105,11 @@ void NeuronNet::recalculateNeurons()
 	for (int l = 1; l < layers.size();l++) 
 	{
 		vector<Neuron*> layer = layers[l];
-		for (int i = 0; i < layer.size();i++) 
+		for (Neuron* n:layer) 
 		{
-			Neuron* n = layer[i];
-			NeuronWithInputs* neuron = (NeuronWithInputs*)n;
+			NeuronWithInputs* neuron = dynamic_cast<NeuronWithInputs*>(n);
 			neuron->recalculate();
+			int a = 2;
 		}
 	}
 }
@@ -146,7 +147,7 @@ void NeuronNet::learnTrainData(TrainPair pair,double train_speed)
 	{
 		vector<Neuron*> layer = layers[l];
 		for (Neuron* n:layer) {
-			NeuronWithInputs* withInputs = (NeuronWithInputs*)n;
+			NeuronWithInputs* withInputs = dynamic_cast<NeuronWithInputs*>(n);
 			withInputs->setInputWeightGradients();
 		}
 	}

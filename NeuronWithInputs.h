@@ -19,7 +19,7 @@ public:
 	NeuronWithInputs(IFuncActivation* func);
 	double getErrorCoefficient();
 	void bindWithInputNeuron(NeuronWithOutputs* neuron);
-	void recalculate();
+	virtual void recalculate();
 	void setInputWeightGradients();
 	void updateInputWeights(double train_speed);
 	//void updateInputWeights(double train_speed);

@@ -16,13 +16,14 @@ double NeuronWithInputs::getErrorCoefficient() {
 }
 void NeuronWithInputs::recalculate() 
 {
-	this->input = 0;
+	input = 0;
 	for (Connection* con : inputs) 
 	{
 		Neuron* inputNeuron=con->input;
-		this->input += inputNeuron->getOutput() * con->weight;
+		input += inputNeuron->getOutput() * con->weight;
 	}
 	output = activation->calculate(input);
+	
 }
 
 void NeuronWithInputs::setInputWeightGradients()

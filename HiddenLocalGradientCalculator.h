@@ -8,5 +8,6 @@ private:
 	std::vector<Connection*> outputs;
 public:
 	HiddenCalculator(std::vector<Connection*> outputs);
+	void setOutput(Connection* output);
 	double calculateLocalGradient() override;
 };

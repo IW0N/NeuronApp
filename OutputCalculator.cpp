@@ -9,5 +9,6 @@ OutputCalculator::OutputCalculator(ILossFunction* loss)
 
 double OutputCalculator::calculateLocalGradient()
 {
-	return loss->differentiate(output, desiredOutput);
+	double result = loss->differentiate(output,desiredOutput);
+	return result;
 }

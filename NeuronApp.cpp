@@ -41,9 +41,9 @@ vector<TrainPair> generateNegativeDataSet(int dataSet_size)
 int main()
 {
     setlocale(LC_ALL,"ru-Ru");
-    auto dataSet = generateNegativeDataSet(1000);
+    auto dataSet = generateNegativeDataSet(300000);
     const int output_count = 3;
-    vector<int> layer_counts = {3,3,3,output_count};
+    vector<int> layer_counts = {3,15,output_count};
     IFuncActivation* activator=new Sigmoida;
     ILossFunction* lossFunc = new MSE(output_count);
     NeuronNet nn(layer_counts, activator,lossFunc);
@@ -52,7 +52,7 @@ int main()
     for (double value:data)
         cout <<value<<' ';
     cout << endl<<"Идёт обучение..."<<endl;
-    nn.train(dataSet, 1, 0.1);
+    nn.train(dataSet, 10, 0.005);
     cout <<"Обучение завершено!"<<endl;
     vector<string> fields{"red: ","green: ", "blue: "};
     vector<double> colors{0,0,0};
