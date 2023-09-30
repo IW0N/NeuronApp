@@ -3,6 +3,8 @@
 #include "InputNeuron.h"
 #include "HiddenNeuron.h"
 #include "OutputNeuron.h"
+#include "EOTWP.h"
+#include "BiasNeuron.h"
 using namespace std;
 Neuron* NeuronNet::getNeuron(IFuncActivation* activation,int layer_index, int layers_count) 
 {
@@ -74,7 +76,7 @@ void NeuronNet::setInputs(vector<double> inputs)
 	for (int i = 0; i < inputs.size(); i++)
 	{
 		Neuron* neuron = firstLayer[i];
-		InputNeuron* input = (InputNeuron*)neuron;
+		InputNeuron* input = dynamic_cast<InputNeuron*>(neuron);
 		double data = inputs[i];
 		input->setInput(data);
 	}
@@ -86,8 +88,7 @@ void NeuronNet::setPredictedOutputs(vector<double> outputs)
 		throw "Некорректная длина выходных данных!";
 	for (int i = 0; i < outputs.size(); i++)
 	{
-		Neuron* neuron = lastLayer[i];
-		OutputNeuron* outNeuron = (OutputNeuron*)neuron;
+		OutputNeuron* outNeuron = dynamic_cast<OutputNeuron*>(lastLayer[i]);
 		double data = outputs[i];
 		outNeuron->setPrdictedOutput(data);
 	}
@@ -124,18 +125,66 @@ vector<double> NeuronNet::getOutput() {
 	return outputs;
 }
 
-void NeuronNet::train(vector<TrainPair> dataSet,int epoches,double train_speed) 
+void NeuronNet::train(vector<TrainPair>* dataSet,int epoches,double train_speed) 
 {
 	double middle = 0;
+	int freq = 10000;
+	int total_index = 0;
 	for (int epoch = 0; epoch < epoches;epoch++) {
-		for (TrainPair pair:dataSet)
-			learnTrainData(pair,train_speed);
-		int index = rand()%10000;
-		TrainPair pair = dataSet[123];
-		vector<double> predicted=pair.output;
-		double error = getTotalError(predicted);
-		cout << error<<endl;
+		for (TrainPair pair : *dataSet) {
+			learnTrainData(pair, train_speed);
+			total_index++;
+			if (total_index % freq == 0) {
+				TrainPair pair = (*dataSet)[1];
+				vector<double> predicted = pair.output;
+				double error = getTotalError(predicted);
+				cout << error << endl;
+			}
+		}
+		
 	}
+}
+void NeuronNet::train(EOTWP parametres)
+{
+	vector<TrainPair>* dataSet = parametres.dataSet;
+	int max_iters = parametres.max_iterations;
+	int max_epochs = max_iters/dataSet->size();
+	int iter = 0;
+	vector<double> sample_prediction = (*dataSet)[parametres.sample_index].output;
+	bool stop = false;
+	for (int epoch = 0; epoch < max_epochs; epoch++)
+	{
+		for (TrainPair pair:*dataSet)
+		{
+			if (iter < parametres.max_iterations)
+			{
+				learnTrainData(pair, parametres.train_speed);
+				if (iter % parametres.check_frequency == 0) 
+				{
+					double error = getTotalError(sample_prediction);
+					cout << error << endl;
+					if (error < parametres.min_error) {
+						stop = true;
+						break;
+					}
+				}
+			}
+			else
+				break;
+			iter++;
+		}
+		if (stop)
+			break;
+		
+	}
+}
+void NeuronNet::setBias(int layer_index)
+{
+	if (layer_index == layers.size() - 1)
+		throw "Нельзя добавить нейрон смещения в выходной слой!";
+	vector<Neuron*> bindable_layer = layers[layer_index+1];
+	BiasNeuron* bias = new BiasNeuron(bindable_layer);
+	biases.push_back(bias);
 }
 void NeuronNet::learnTrainData(TrainPair pair,double train_speed)
 {
@@ -154,7 +203,7 @@ void NeuronNet::learnTrainData(TrainPair pair,double train_speed)
 	for (int l = last_index; l >= 1; l--) {
 		vector<Neuron*> layer = layers[l];
 		for (Neuron* n:layer) {
-			NeuronWithInputs* withInputs = (NeuronWithInputs*)n;
+			NeuronWithInputs* withInputs = dynamic_cast<NeuronWithInputs*>(n);
 			withInputs->updateInputWeights(train_speed);
 		}
 	}
@@ -174,5 +223,6 @@ NeuronNet::~NeuronNet() {
 		vector<Neuron*> layer = layers[l];
 		layer.clear();
 	}
+	biases.clear();
 	delete this->loss_func;
 }

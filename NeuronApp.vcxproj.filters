@@ -13,6 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Neurons">
+      <UniqueIdentifier>{336f4432-4d3d-4bf2-8485-a1c020eb7102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Functions">
+      <UniqueIdentifier>{3caf4d85-cca7-470a-bf5d-d5f6b985ebb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Functions\Activation">
+      <UniqueIdentifier>{6d7ea439-6ec1-438c-8bc3-4a13403a7ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Functions\Loss">
+      <UniqueIdentifier>{1fee23b4-3aa3-4e30-8765-32b4c8f513b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Train">
+      <UniqueIdentifier>{6bb9a733-7372-428b-bf6e-50d2f435aaea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Neurons">
+      <UniqueIdentifier>{c304e486-4c8d-42db-a02e-273fcbda29f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Functions">
+      <UniqueIdentifier>{5796c22e-795b-4f15-8a4f-8438142b089c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\LocalGradientCalcs">
+      <UniqueIdentifier>{7ccbb9a7-9b1b-4f22-90d2-0bef97ef9033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\LocalGradientCalcs">
+      <UniqueIdentifier>{b329ae63-b595-4b21-a2ee-68353f55694e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Train">
+      <UniqueIdentifier>{fe4765ef-8b5f-488f-b082-0946fe58ad3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Neurons\Abstractions">
+      <UniqueIdentifier>{5433a962-70c5-4c49-860b-e4821d7d7bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Neurons\Relasiations">
+      <UniqueIdentifier>{75d7646a-a373-498b-98d0-00cfe0f29fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Neurons\Abstractions">
+      <UniqueIdentifier>{9e36071f-fdaf-4299-98ec-2f3cc5e4d8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Neurons\Realisations">
+      <UniqueIdentifier>{e66e2797-0b8c-47ac-b96c-92ccfac83a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Functions\Activation">
+      <UniqueIdentifier>{7c7168ed-d97c-499a-b195-eee40c14c07d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Functions\Loss">
+      <UniqueIdentifier>{971ebf6a-49db-4624-a1b4-63b269b572d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\LocalGradientCalcs\Realisations">
+      <UniqueIdentifier>{eef7c6d0-a6f1-462d-bec6-31ed06124ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\LocalGradientCalcs\Realisations">
+      <UniqueIdentifier>{eed527f7-9189-49de-8fb2-a8160c26b328}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NeuronApp.cpp">
@@ -21,103 +75,112 @@
     <ClCompile Include="NeuronNet.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ReLU.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Connection.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TrainPair.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Neuron.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="NeuronWithOutputs.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="NeuronWithInputs.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="InputNeuron.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="HiddenNeuron.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputNeuron.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Sigmoida.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Neurons</Filter>
     </ClCompile>
     <ClCompile Include="ILossFunction.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="ILocalGradientCalculator.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="HiddenLocalGradientCalculator.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputCalculator.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Functions\Loss</Filter>
     </ClCompile>
     <ClCompile Include="MSE.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Functions\Loss</Filter>
+    </ClCompile>
+    <ClCompile Include="Sigmoida.cpp">
+      <Filter>Исходные файлы\Functions\Activation</Filter>
+    </ClCompile>
+    <ClCompile Include="ReLU.cpp">
+      <Filter>Исходные файлы\Functions\Activation</Filter>
+    </ClCompile>
+    <ClCompile Include="ILocalGradientCalculator.cpp">
+      <Filter>Исходные файлы\LocalGradientCalcs</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainPair.cpp">
+      <Filter>Исходные файлы\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenNeuron.cpp">
+      <Filter>Исходные файлы\Neurons\Relasiations</Filter>
+    </ClCompile>
+    <ClCompile Include="InputNeuron.cpp">
+      <Filter>Исходные файлы\Neurons\Relasiations</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputNeuron.cpp">
+      <Filter>Исходные файлы\Neurons\Relasiations</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuronWithInputs.cpp">
+      <Filter>Исходные файлы\Neurons\Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuronWithOutputs.cpp">
+      <Filter>Исходные файлы\Neurons\Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenLocalGradientCalculator.cpp">
+      <Filter>Исходные файлы\LocalGradientCalcs\Realisations</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputCalculator.cpp">
+      <Filter>Исходные файлы\LocalGradientCalcs\Realisations</Filter>
+    </ClCompile>
+    <ClCompile Include="BiasNeuron.cpp">
+      <Filter>Исходные файлы\Neurons\Relasiations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IFuncActivation.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="ReLU.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="NeuronNet.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Connection.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TrainPair.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Neuron.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="NeuronWithOutputs.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="NeuronWithInputs.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="HiddenNeuron.h">
+      <Filter>Файлы заголовков\Neurons\Realisations</Filter>
     </ClInclude>
     <ClInclude Include="InputNeuron.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="HiddenNeuron.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Neurons\Realisations</Filter>
     </ClInclude>
     <ClInclude Include="OutputNeuron.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Neurons\Realisations</Filter>
     </ClInclude>
-    <ClInclude Include="Sigmoida.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="NeuronWithInputs.h">
+      <Filter>Файлы заголовков\Neurons\Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Neuron.h">
+      <Filter>Файлы заголовков\Neurons</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuronWithOutputs.h">
+      <Filter>Файлы заголовков\Neurons\Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="IFuncActivation.h">
+      <Filter>Файлы заголовков\Functions\Activation</Filter>
     </ClInclude>
     <ClInclude Include="ILossFunction.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="ILocalGradientCalculator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="HiddenLocalGradientCalculator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="OutputCalculator.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Functions\Loss</Filter>
     </ClInclude>
     <ClInclude Include="MSE.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Functions\Loss</Filter>
+    </ClInclude>
+    <ClInclude Include="ReLU.h">
+      <Filter>Файлы заголовков\Functions\Activation</Filter>
+    </ClInclude>
+    <ClInclude Include="Sigmoida.h">
+      <Filter>Файлы заголовков\Functions\Activation</Filter>
+    </ClInclude>
+    <ClInclude Include="ILocalGradientCalculator.h">
+      <Filter>Файлы заголовков\LocalGradientCalcs</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenLocalGradientCalculator.h">
+      <Filter>Файлы заголовков\LocalGradientCalcs\Realisations</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputCalculator.h">
+      <Filter>Файлы заголовков\LocalGradientCalcs\Realisations</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainPair.h">
+      <Filter>Файлы заголовков\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="EOTWP.h">
+      <Filter>Файлы заголовков\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="BiasNeuron.h">
+      <Filter>Файлы заголовков\Neurons\Realisations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

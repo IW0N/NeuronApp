@@ -7,11 +7,14 @@
 #include "Neuron.h"
 #include "TrainPair.h"
 #include "ILossFunction.h"
+#include "EOTWP.h"
+#include "BiasNeuron.h"
 using namespace std;
 class NeuronNet {
 private:
 	ILossFunction* loss_func;
 	vector<vector<Neuron*>> layers;
+	vector<BiasNeuron*> biases;
 	//инициализация слоёв нейронов
 	void initLayers(vector<int> layer_sizes,IFuncActivation* func);
 	void bindLayerWithPrevious(vector<Neuron*> layer,int layer_index);
@@ -31,7 +34,9 @@ private:
 public:
 	NeuronNet(vector<int> layer_sizes, IFuncActivation* func,ILossFunction* loss);
 	vector<double> getData(vector<double> input);
-	void train(vector<TrainPair> dataSet,int epoches,double train_speed);
+	void train(vector<TrainPair>* dataSet,int epoches,double train_speed);
+	void train(EOTWP parametres);
+	void setBias(int layer_index);
 	double getTotalError(vector<double> predicted);
 	~NeuronNet();
 };

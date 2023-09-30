@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BiasNeuron.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="HiddenLocalGradientCalculator.cpp" />
     <ClCompile Include="HiddenNeuron.cpp" />
@@ -146,7 +147,9 @@
     <ClCompile Include="TrainPair.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BiasNeuron.h" />
     <ClInclude Include="Connection.h" />
+    <ClInclude Include="EOTWP.h" />
     <ClInclude Include="HiddenLocalGradientCalculator.h" />
     <ClInclude Include="HiddenNeuron.h" />
     <ClInclude Include="IFuncActivation.h" />
